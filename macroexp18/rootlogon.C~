@@ -1,4 +1,0 @@
-{
-	gInterpreter->AddIncludePath("/home/muzalevsky/go4");
-	gSystem->Load("/home/muzalevsky/go4/libGo4UserAnalysis.so");
-}
