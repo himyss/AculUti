@@ -1,0 +1,24 @@
+#include <TSystem.h>
+#include <iostream>
+
+using namespace std;
+
+void FindDeadLayer()
+{
+	gSystem->Load("/home/muzalevsky/AculUtils/libAculData.so");
+	gSystem->Load("/home/muzalevsky/AculUtils/libTELoss.so");
+
+	AculCalibration cal;
+	cal.SetWorkDirectory("/home/muzalevsky/AculUtils/exp1804/");
+	cal.SetParFileName("/home/muzalevsky/AculUtils/macro/parforcal.par");	
+	cal.SetInputRootFile("/home/muzalevsky/work/calib/si_20_04.root");
+	cal.Init();	//takes parameters from .par
+	cal.PrintInputParameters();
+
+	cal.FindPedestals(0, 200);
+	//cal.CalculateCalibParameters(500, 1000);
+	//cal.FindEnergyPedestals();
+
+}
+
+

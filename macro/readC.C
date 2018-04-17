@@ -1,0 +1,66 @@
+#include "TSystem.h"
+#include "TFile.h"
+#include "TTree.h"
+#include "/home/muzalevsky/go4/TNeEvent.h"
+
+void readC(){
+
+	gSystem->Load("/home/muzalevsky/go4/libGo4UserAnalysis.so");
+
+	TFile* f = new TFile("/home/muzalevsky/work/calib/si_20_000001.root");
+	TTree* t = (TTree*) f->Get("AnalysisxTree");
+
+	TNeEvent *revent = new TNeEvent();
+	tr->SetBranchAddress("NeEvent.", &revent);
+
+	UShort_t *SQX_L;
+	UShort_t *SQ300;
+	
+	//t->SetBranchAddress("SQY_L",SQX_L);
+	//t->SetBranchAddress("SQ300",SQ300);
+
+	for (Int_t i = 0; i < nevents; i++) {
+		tr->GetEvent(i);
+		cout << revent->SQX_L[0] << endl;
+		//tw->Fill();
+	}
+
+
+}
+
+/*
+#include "../TNeEvent.h"
+
+void fillTree() {
+
+	TFile *fr = new TFile("~/data/exp1804/h5_11_00.root");
+	TTree *tr = (TTree*)fr->Get("AnalysisxTree");
+
+	TNeEvent *revent = new TNeEvent();
+
+//	return;
+
+	tr->SetBranchAddress("NeEvent.", &revent);
+
+	TFile *fw = new TFile("~/data/exp1804/h5_11_0_calib.root", "RECREATE");
+	TTree *tw = new TTree("cal", "Calibrated information");
+
+	Float_t SQLXE[32];
+	tw->Branch("SQLXE",SQLXE,"SQLXE[32]/F");
+
+//	const Long64_t nevents = tr->GetEntries();
+	const Long64_t nevents = 10000;
+
+	for (Int_t i = 0; i < nevents; i++) {
+		tr->GetEvent(i);
+//		cout << revent->SQX_L[0] << endl;
+		SQLXE[0] = revent->SQX_L[0];
+
+		tw->Fill();
+	}
+
+	tw->Write();
+	fw->Close();
+
+}
+*/

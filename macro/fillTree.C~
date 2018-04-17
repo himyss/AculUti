@@ -1,0 +1,37 @@
+#include "TSystem.h"
+#include "TFile.h"
+#include "TTree.h"
+#include "/home/muzalevsky/go4/TNeEvent.h"
+
+void fillTree() {
+
+	TFile *fr = new TFile("/home/muzalevsky/work/calib/si_20_04.root");
+	TTree *tr = (TTree*)fr->Get("AnalysisxTree");
+
+	TNeEvent *revent = new TNeEvent();
+
+//	return;
+
+	tr->SetBranchAddress("NeEvent.", &revent);
+
+	TFile *fw = new TFile("/home/muzalevsky/AculUtils/exp1804/raw.root", "RECREATE");
+	TTree *tw = new TTree("raw", "raw hists");
+
+	Float_t SQ20[16];
+	tw->Branch("SQ20",SQ20,"SQ20[16]/F");
+
+//	const Long64_t nevents = tr->GetEntries();
+	const Long64_t nevents = tr->GetEntries();
+
+	for (Int_t i = 0; i < 15; i++) {
+		tr->GetEvent(i);
+//		cout << revent->SQX_L[0] << endl;
+		SQ20[0] = revent->SQ20[0];
+		cout << SQ20[0] << endl;
+		tw->Fill();
+	}
+
+	tw->Write();
+	fw->Close();
+
+}
