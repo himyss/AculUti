@@ -15,7 +15,7 @@
 
 #include "AculCalibration.h"
 
-ClassImp(AculCalibration);
+//ClassImp(AculCalibration);
 
 AculCalibration::AculCalibration() : fEnergy(0), fEnergyInput(0), fA(0), fB(0), fPeak(0)
 {

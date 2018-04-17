@@ -41,7 +41,7 @@ htmldoc: libAculData.so
 
 clean:
 	-$(RM) $(ACULDATAOBJS) $(ACULDATACPP_DEPS) 
-	-$(RM) $(ACULDATA)/AculDataCint.* libAculData.so
+	-$(RM) $(ACULDATA)/AculDataCint* libAculData.so
 	-@echo ' '
 	-$(RM) $(TELOSSOBJS) $(TELOSSCPP_DEPS)
 	-$(RM) $(TELOSS)/TELossCint.* libTELoss.so

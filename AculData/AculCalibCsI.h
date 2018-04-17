@@ -5,13 +5,14 @@
 #include <iostream>
 #include <fstream>
 
-#include "TFile.h"
-#include "TTree.h"
-#include "TCutG.h"
+#include <TFile.h>
+#include <TTree.h>
+#include <TCutG.h>
 #include "TCanvas.h"
 #include "TClonesArray.h"
 #include "TH1I.h"
-#include "TGraphErrors.h"
+#include <TGraphErrors.h>
+//#include "TGraph"
 #include "TArrayD.h"
 #include "TF1.h"
 
@@ -44,8 +45,8 @@ private:
 	Int_t nCuts;				//number of cuts
 	TClonesArray cutsCol;
 
-	TH1I *hfull[NOCALFILES][16];
-	TH1I *hcut[NOCALFILES][16];
+	TH1I *hfull[NOCALFILES][16];	//!
+	TH1I *hcut[NOCALFILES][16];		//!
 
 	Int_t peakMin[NOCALFILES][16];
 	Int_t peakMax[NOCALFILES][16];
