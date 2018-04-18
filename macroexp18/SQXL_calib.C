@@ -6,12 +6,12 @@ using namespace std;
 
 void SQXL_calib(){ 
 				
-	string 	input_file_name_cs = "/home/muzalevsky/work/calib/si_20_03.root";		
+	string 	input_file_name_cs = "/media/users_NAS/Muzalevsky/si_1000_LR_02_0001.root";		
 	Int_t 	max_channel = 300;
 
 	TTree* 		t;
 	UShort_t    NeEvent_SQ20[16];
-	UShort_t    NeEvent_SQX_L[16];
+	UShort_t    NeEvent_SQX_L[32];
 	TBranch    *b_NeEvent_SQ20;
 	TBranch    *b_NeEvent_SQX_L;
 
@@ -26,7 +26,7 @@ void SQXL_calib(){
     if(count<3) continue;
 		if(line1.IsNull()) break;
     sscanf(line1.Data(),"%g %g", parSQ1+count-3,parSQ2+count-3);
-    cout << parSQ1[count-3] << " " << parSQ2[count-3] << endl;
+    //cout << parSQ1[count-3] << " " << parSQ2[count-3] << endl;
   }
   
 	/*parSQ1[0] = -0.3762; 	parSQ2[0] = 0.02216;
@@ -62,53 +62,53 @@ void SQXL_calib(){
 	parSQ1[30] = -0.3256;	parSQ2[30] = 0.02148;		
 	parSQ1[31] = -0.3173;	parSQ2[31] = 0.02251;		*/
 
-return;
-
 	f = new TFile(input_file_name_cs.c_str());
 	f->GetObject("AnalysisxTree",t);
 	t->SetMakeClass(1);
 	//TTree *t = (TTree*)f->Get("AnalysisxTree");
 	t->SetBranchAddress("NeEvent.SQ20[16]", NeEvent_SQ20, &b_NeEvent_SQ20);
-	t->SetBranchAddress("NeEvent.SQX_L[16]", NeEvent_SQX_L, &b_NeEvent_SQX_L);
+	t->SetBranchAddress("NeEvent.SQX_L[32]", NeEvent_SQX_L, &b_NeEvent_SQX_L);
 	const Long64_t nentries1 = t->GetEntries();
-return;
-	cout<<">>> Making histograms"<<endl;
+  cout << nentries1 << endl;
+
+	//cout<<">>> Making histograms"<<endl;
 	TH1I* hist20[16];
 	TString histName;
 	TH1I *htest = new TH1I("htest", "htest", 300, 0, 1000);
 	Int_t raw20[16];	
-	Float_t SQX_L[16];
+	Float_t SQX_L[32];
 
 	for(Int_t i=0; i<16;i++){
       		histName.Form("hist20_%d", i);
 		hist20[i] = new TH1I(histName.Data(), histName.Data(), max_channel, 0, 1000);
 	}
 	
-	TFile *fw = new TFile("/home/muzalevsky/AculUtils/exp1804/raw.root", "RECREATE");
+	TFile *fw = new TFile("raw.root", "RECREATE");
 	TTree *tw = new TTree("raw", "raw hists");
 	//tw->Branch("htest","TH1I",&htest,32000,0);
-	tw->Branch("raw20",&raw20,"raw20/I");
-	tw->Branch("SQX_L",&SQX_L,"SQX_L/F");
+	//tw->Branch("raw20",&raw20,"raw20/I");
+	tw->Branch("SQX_L",&SQX_L,"SQX_L[32]/F");
 
 	/*for(Int_t i=0; i<16;i++){
       		histName.Form("hist20_%d", i);
 		cout << histName.Data() << endl;
 		tw->Branch(histName.Data(),"TH1I",hist20[i],32000,0);
 	}*/
-
+  Int_t maxE = 50000;
+  cout<<">>> filling TREE up to "<<maxE<< " event"<<endl;
 	//for (Long64_t jentry=0; jentry<nentries1;jentry++) {
-	for (Long64_t jentry=0; jentry<1000000;jentry++) {
+	for (Long64_t jentry=0; jentry<maxE;jentry++) {
 		t->GetEntry(jentry);
-		for(Int_t i=0; i<16; i++){
+		for(Int_t i=0; i<32; i++){
 			//hist20[i]->Fill(NeEvent_SQ20[i]);
 			//htest->Fill(NeEvent_SQ20[0]);
-			raw20[i] = NeEvent_SQ20[i];
-			SQX_L[i] = NeEvent_SQX_L[i]*parSQ2[i] + parSQ1[i];
+			//raw20[i] = NeEvent_SQ20[i];
+			SQX_L[i] = NeEvent_SQX_L[i];
 		}
 		tw->Fill();			
 	}
 	
-	htest->Draw();
+	//htest->Draw();
 	tw->Write();
 	fw->Close();
 /*

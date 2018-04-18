@@ -1003,7 +1003,6 @@ Bool_t AculCalibration::Mycalc(Int_t lowerchannel, Int_t upperchannel) {
 
 	}
 
-//////////
 	TString rawName;
 	rawName.Form("%s_Raw.root", block);
 	//creation of the raw output root file
@@ -1014,58 +1013,6 @@ Bool_t AculCalibration::Mycalc(Int_t lowerchannel, Int_t upperchannel) {
 		Error("Mycalc", "File %s was not opened and won't be processed", rawFileName.Data());
 		return 0;
 	}
-
-  
-
- /* TTree *tRaw = new TTree("tRaw", "raw hists");
-  Double_t u;
-  tRaw->Branch("u",&u,"u/F");
-  u=10.;
-  tRaw->Fill();
-	tRaw->Write();
-
-
-
-	
-	for(Int_t i = flowersubaddress; i <= fuppersubaddress; i++) { //this loop goes from 1 to 16 or 1 to 32 i.e. number of strips
-
-		Info("ShowFullCalibratedSpectra", "Calculate full spectra for channel %d", i);
-		line.ReadLine(infile);
-		sscanf(line.Data(), "%s %s", cA, cB);
-		fA[i] = atof(cA);
-		fB[i] = atof(cB);
-		//cout<<fA[i]<<" "<<fB[i]<<"!!!!!!!!!!!!!"<<endl;
-		hRaw2 = new TH1I("name", "title", 4096, 0, 4095);
-		detectorChannel.Form("%s[%d]", block, i);
-		histName.Form("Hist%s[%d]", block, i);
-		hRaw2->SetName(histName.Data());
-	
-		fillCommand.Form("%s >> %s", detectorChannel.Data(), hRaw2->GetName());
-		fillCondition.Form("%s > %d && %s < %d", detectorChannel.Data(), lowerchannel, detectorChannel.Data(), upperchannel);
-
-		//filling from the .root raw data file and content arrangement
-		tr->Draw(fillCommand.Data(), fillCondition.Data(), "goff");
-
-		histName.Form("%sEfull", hRaw2->GetName());
-		histTitle.Form("%s: %s", fInputRootFile.Data(), histName.Data());
-		hEnergy = new TH1F(histName.Data(), histTitle.Data(), nEBins, 0., 10.);
-
-
-		for (Int_t j = lowerchannel; j < upperchannel; j++) {
-			Int_t binCont = (Int_t)hRaw2->GetBinContent(j);
-			for (Int_t k = 0; k < binCont; k++) {
-				//cout<<fA[i]<<" "<<fB[i]<<"!!!!!!!!!!!!!"<<endl;
-				hEnergy->Fill(fA[i] + fB[i]*( j+ranGen.Uniform(0., 1.0) ));
-			}
-		}
-		fw->cd();
-		hEnergy->Write();
-	}
-	fw->Close();
-	fr->Close();
-
-*/
-///////
 
 	TString CalibName;
 	CalibName.Form("%s.cal", block);
@@ -1117,9 +1064,11 @@ Bool_t AculCalibration::Mycalc(Int_t lowerchannel, Int_t upperchannel) {
 		for (Int_t j = 0; j < kRaNOPEAKS; j++) {
 			calGraph->SetPoint(j, fPeak[j], fEnergy[j]);  //calibration graph filling
 			//printf("\tPeak\t%f and energy\t%f\n", fPeak[j], fEnergy[j]);
+      cout << "Peak and energy " << fPeak[j] << " " << fEnergy[j] << endl;
 		}
-		calGraph->SetPoint(4, pedestal_chan, 0.); //additional point for the pedestal at 0 MeV
-		calGraph->Fit(calFunction, "Q", "goff", 0, 4096);  
+		//calGraph->SetPoint(4, pedestal_chan, 0.); //additional point for the pedestal at 0 MeV
+		calGraph->Fit(calFunction, "Q", "goff", 0, 4096);
+    cout << calFunction->GetParameter(0) << " " <<  calFunction->GetParameter(1) << endl;
 		outcalfile
 			<< setprecision(4) << calFunction->GetParameter(0)<< "\t"
 			<< setprecision(4) << calFunction->GetParameter(1)<< "\t\t" //E=a+bN

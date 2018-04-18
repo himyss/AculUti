@@ -6,7 +6,7 @@
 5.59033 				E2	//in MeV//
 6.11469				E3	//in MeV//
 7.661				E4	//in MeV//
-5.4			deadLayer
+0.			deadLayer
 0					lowersubaddress
 31 					uppersubaddress
 SQX_L				block

@@ -39,15 +39,15 @@ void cal() {
 */
 	Double_t x[4];
 	Double_t y[4],y1[4];
-	x[0] = 207.312421;
-	x[1] = 241.323390;
-	x[2] = 266.306461;
-	x[3] = 346.944345;
+	x[0] = 207.003862;
+	x[1] = 240.797535;
+	x[2] = 265.506278;
+	x[3] = 345.463847;
 
 
 /*cout  << 648.432473 << " " << g1->GetParameter(1) << endl; 
 cout  << 753.847543 << " " << g2->GetParameter(1) << endl; 
-cout  << 823.561856 << " " << g3->GetParameter(1) << endl; */
+cout  << 823.561856 << " " << g3->GetParameter(1) << endl; 
 
 	//y[0] = 4.87064;
 	///y[1] = 5.59033;
@@ -57,75 +57,29 @@ cout  << 823.561856 << " " << g3->GetParameter(1) << endl; */
 	y[0] = 4.09804;
 	y[1] = 4.86926;
 	y[2] = 5.42563;
-	y[3] = 7.06078;
+	y[3] = 7.06078;*/
 
   y1[0] = 4.87064;	//		E1	//in MeV including dead layer of alpha source//энергии альфа источника
   y1[1] = 5.59033;// 				E2	//in MeV//
   y1[2] = 6.11469;//				E3	//in MeV//
   y1[3] = 7.661;//	
 
+//-0.202695 0.0235211
 
 	TCanvas *c1 = new TCanvas();
-  c1->Divide(2,1);
+  /*c1->Divide(2,1);
   c1->cd(1);
 	TGraph *lin = new TGraph(4,x,y);
 	TF1 *fit = new TF1("fit","[0]*x + [1]");
 	lin->Draw("A*");
-	lin->Fit("fit");
+	lin->Fit("fit");*/
 
-  c1->cd(2);
+ // c1->cd(2);
 	TGraph *lin1 = new TGraph(4,x,y1);
   TF1 *fit1 = new TF1("fit1","[0]*x + [1]");
+	TF1 *fit2 = new TF1("fit2", "pol1", 0, 1000);
 	lin1->Draw("A*");
-	lin1->Fit("fit1");
-  
-
-
-/*
-	TCanvas *c2 = new TCanvas();
-	c2->cd();
-	fit->SetRange(-100,900);
-	fit->Draw();
-	
-
-
-
-	Double_t mean1,mean2,amp1,amp2,k,b;
-	mean1 = g1->GetParameter("Mean");		
-	mean2 = g2->GetParameter("Mean");	
-	amp1 = 1173.2;
-	amp2 = 1332.5;
-
-	k = (amp1-amp2)/(mean1-mean2); // collibration params
-	b = amp1 - k*mean1;
-
-	// from channels to energies
-	Double_t eMin,eMax,xMin,xMax;	
-	xMin = h->GetXaxis()->GetXmin(); 
-	xMax = h->GetXaxis()->GetXmax();
-
-	eMin = xMin*k + b;
-	eMax = xMax*k + b;
-
-	TH1F *he = new TH1F("he","energy dist",h->GetNbinsX(),eMin,eMax);
-
-	for(Int_t i = 0; i < h->GetNbinsX(); i++) {
-		he->SetBinContent(i,h->GetBinContent(i));
-	}
-	
-	TF1 *ge1 = new TF1("ge1","gaus",r1*k+b,r2*k+b); // range of fit
-	ge1->SetParLimits(1,mrl1*k+b,mrh1*k+b);
-  	TF1 *ge2 = new TF1("ge2","gaus",r1*k+b,r2*k+b); // range of fit
-	ge2->SetParLimits(1,mrl2*k+b,mrh2*k+b);
-	he->Fit("ge1","R");
-	he->Fit("ge2","R+");
-
-/// results
-	Double_t res1,res2;
-	res1 = ge1->GetParameter("Sigma")*2.355*100/ge1->GetParameter("Mean");
-	cout<< "this is resolution of first peak 1173 keV: " << res1 << endl;
-	res2 = ge2->GetParameter("Sigma")*2.355*100/ge2->GetParameter("Mean");
-	cout<< "this is resolution of second peak 1333 keV: " << res2 << endl;
-*/
+	lin1->Fit("fit2");
+ 
 return;
 }
