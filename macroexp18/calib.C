@@ -9,7 +9,7 @@ void calib()
 	gSystem->Load("/home/muzalevsky/AculUti/libTELoss.so");
 
 	AculCalibration cal;
-	cal.SetWorkDirectory("/home/muzalevsky/AculUti/exp1803/cali1mm/zeroDL/");
+	cal.SetWorkDirectory("/home/muzalevsky/AculUti/exp1803/cali1mm/calDL/");
 	cal.SetParFileName("/home/muzalevsky/AculUti/macroexp18/parforcal.par");	
 	cal.SetInputRootFile("/media/users_NAS/Muzalevsky/si_1000_LR_02_0001.root");
 	cal.Init();	//takes parameters from .par

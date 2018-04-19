@@ -39,10 +39,10 @@ void cal() {
 */
 	Double_t x[4];
 	Double_t y[4],y1[4];
-	x[0] = 207.003862;
-	x[1] = 240.797535;
-	x[2] = 265.506278;
-	x[3] = 345.463847;
+	x[0] = 206.225924;
+	x[1] = 240.106738;
+	x[2] = 264.471587;
+	x[3] = 344.189266;
 
 
 /*cout  << 648.432473 << " " << g1->GetParameter(1) << endl; 
@@ -59,14 +59,14 @@ cout  << 823.561856 << " " << g3->GetParameter(1) << endl;
 	y[2] = 5.42563;
 	y[3] = 7.06078;*/
 
-  y1[0] = 4.87064;	//		E1	//in MeV including dead layer of alpha source//энергии альфа источника
-  y1[1] = 5.59033;// 				E2	//in MeV//
-  y1[2] = 6.11469;//				E3	//in MeV//
-  y1[3] = 7.661;//	
+  y1[0] = 4.49274;	//		E1	//in MeV including dead layer of alpha source//энергии альфа источника
+  y1[1] = 5.21546;// 				E2	//in MeV//
+  y1[2] = 5.74011;//				E3	//in MeV//
+  y1[3] = 7.46059;//	
 
 //-0.202695 0.0235211
 
-	TCanvas *c1 = new TCanvas();
+	TCanvas *c1 = new TCanvas("c1","SQL_X[17]");
   /*c1->Divide(2,1);
   c1->cd(1);
 	TGraph *lin = new TGraph(4,x,y);

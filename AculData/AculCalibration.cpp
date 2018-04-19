@@ -1014,6 +1014,19 @@ Bool_t AculCalibration::Mycalc(Int_t lowerchannel, Int_t upperchannel) {
 		return 0;
 	}
 
+	TString EName;
+	EName.Form("%s_E.txt", block);
+  TString EFileName =  fWorkDirectory +  EName;
+	//creating Energies table
+
+	ofstream outEfile;
+	outEfile.open(EFileName.Data());
+	if (!outEfile.is_open()) {
+		Error("CalculateCalibParameters", "Output file %s was not opened", EFileName.Data());
+		return 0;
+	}
+
+
 	TString CalibName;
 	CalibName.Form("%s.cal", block);
 	TString oFileName =  fWorkDirectory +  CalibName; 
@@ -1065,9 +1078,13 @@ Bool_t AculCalibration::Mycalc(Int_t lowerchannel, Int_t upperchannel) {
 			calGraph->SetPoint(j, fPeak[j], fEnergy[j]);  //calibration graph filling
 			//printf("\tPeak\t%f and energy\t%f\n", fPeak[j], fEnergy[j]);
       cout << "Peak and energy " << fPeak[j] << " " << fEnergy[j] << endl;
-		}
+		} 
 		//calGraph->SetPoint(4, pedestal_chan, 0.); //additional point for the pedestal at 0 MeV
 		calGraph->Fit(calFunction, "Q", "goff", 0, 4096);
+  	for (Int_t j = 0; j < kRaNOPEAKS; j++) {
+      outEfile << setprecision(4) << fPeak[j]<< "\t";
+		}
+    outEfile << endl;  
     cout << calFunction->GetParameter(0) << " " <<  calFunction->GetParameter(1) << endl;
 		outcalfile
 			<< setprecision(4) << calFunction->GetParameter(0)<< "\t"
