@@ -157,7 +157,10 @@ Int_t AculCalibration::SearchPeaks(const TH1 *hin, Double_t sigma, Option_t *opt
 Int_t AculCalibration::PeaksFitting(TH1* hSpectrum, Option_t* option, Double_t sigmamin)
 {
 
-	if (!hSpectrum) return 1;
+	if (!hSpectrum) {
+    cout<< "raw spec was not found " << endl;
+    return 1;
+  }
 	Int_t dimension = hSpectrum->GetDimension();
 	if (dimension > 1) {
 		Error("PeaksFitting", "Only implemented for 1-d histograms");
@@ -1063,6 +1066,16 @@ Bool_t AculCalibration::Mycalc(Int_t lowerchannel, Int_t upperchannel) {
 		fillCommand.Form("%s >> %s", detectorChannel.Data(), hRaw->GetName());
 		fillCondition.Form("%s > %d && %s < %d",
 				detectorChannel.Data(), lowerchannel, detectorChannel.Data(), upperchannel);
+//------------------------------------------------------------------------------------
+    if(i==14) {
+      fillCondition.Form("%s > %d && %s < %d",
+				detectorChannel.Data(), 120, detectorChannel.Data(), upperchannel);
+    }
+    if(i==1) {
+      fillCondition.Form("%s > %d && %s < %d",
+				detectorChannel.Data(), 150, detectorChannel.Data(), upperchannel);
+    }    
+//------------------------------------------------------------------------------------
 		//filling from the .root raw data file and content arrangement
 		tr->Draw(fillCommand.Data(), fillCondition.Data(), "goff");
 
