@@ -1043,6 +1043,7 @@ Bool_t AculCalibration::Mycalc(Int_t lowerchannel, Int_t upperchannel) {
 		return 0;
 	}
 
+
 	TF1 	*calFunction = new TF1("calib", "pol1", 0, 1000);
 	TGraph 	*calGraph = new TGraph(kRaNOPEAKS, fPeak.GetArray(), fEnergy.GetArray());
 	
@@ -1056,6 +1057,8 @@ Bool_t AculCalibration::Mycalc(Int_t lowerchannel, Int_t upperchannel) {
 
 	TH1I *hRaw = 0;
 
+  outcalfile << calFunction->GetNpar() << endl << fuppersubaddress - flowersubaddress + 1 << endl;
+
 	for (Int_t i = flowersubaddress; i <= fuppersubaddress; i++) {
 		printf("\n\n");
 		Info("CalculateCalibParameters", "Calculating calibration parameters for detector channel %s[%d].", block, i);
@@ -1067,14 +1070,14 @@ Bool_t AculCalibration::Mycalc(Int_t lowerchannel, Int_t upperchannel) {
 		fillCondition.Form("%s > %d && %s < %d",
 				detectorChannel.Data(), lowerchannel, detectorChannel.Data(), upperchannel);
 //------------------------------------------------------------------------------------
-    if(i==14) {
+ /*   if(i==14) {
       fillCondition.Form("%s > %d && %s < %d",
 				detectorChannel.Data(), 120, detectorChannel.Data(), upperchannel);
     }
     if(i==1) {
       fillCondition.Form("%s > %d && %s < %d",
 				detectorChannel.Data(), 150, detectorChannel.Data(), upperchannel);
-    }    
+    }    */
 //------------------------------------------------------------------------------------
 		//filling from the .root raw data file and content arrangement
 		tr->Draw(fillCommand.Data(), fillCondition.Data(), "goff");
@@ -1107,8 +1110,9 @@ Bool_t AculCalibration::Mycalc(Int_t lowerchannel, Int_t upperchannel) {
     fCalInformation->cd(); // writing hists into rawOutFile
 		hRaw->Write();
 	}
+  outcalfile << endl;
   fCalInformation->Close();
- 	return 1;
+  return 1;
 }
 
 
