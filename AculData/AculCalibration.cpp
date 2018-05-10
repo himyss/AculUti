@@ -1172,14 +1172,19 @@ Bool_t AculCalibration::ShowFullCalibratedSpectra(//const char* inputfile,
 		return 1;
 	}
 
-	for(Int_t i = flowersubaddress; i <= fuppersubaddress; i++) { //this loop goes from 1 to 16 or 1 to 32 i.e. number of strips
+	for(Int_t i = flowersubaddress-2; i <= fuppersubaddress; i++) { //this loop goes from 1 to 16 or 1 to 32 i.e. number of strips with skipping first two lines
+    
+    if(i<flowersubaddress) {
+      line.ReadLine(infile);
+      continue;
+    }
 
 		Info("ShowFullCalibratedSpectra", "Calculate full spectra for channel %d", i);
 		line.ReadLine(infile);
 		sscanf(line.Data(), "%s %s", cA, cB);
 		fA[i] = atof(cA);
 		fB[i] = atof(cB);
-		//cout<<fA[i]<<" "<<fB[i]<<"!!!!!!!!!!!!!"<<endl;
+		cout<<fA[i]<<" "<<fB[i]<<"!!!!!!!!!!!!!"<<endl;
 		hRaw2 = new TH1I("name", "title", 4096, 0, 4095);
 		detectorChannel.Form("%s[%d]", block, i);
 		histName.Form("Hist%s[%d]", block, i);
