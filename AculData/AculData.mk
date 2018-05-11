@@ -2,7 +2,7 @@
 # AculData input with some variables
 ################################################################################
 
-ACULDATALIBS := -lCore -lCint -lRIO -lTree -lNet -lThread -lHist -lMatrix -lMathCore -lGpad -lGraf -lSpectrum #-lTELoss
+ACULDATALIBS := -lCore -lCling -lRIO -lTree -lNet -lThread -lHist -lMatrix -lMathCore -lGpad -lGraf -lSpectrum #-lTELoss
 
 # Add inputs and outputs from these tool invocations to the build variables 
 ACULDATA_HEADERS += \

@@ -2,7 +2,7 @@
 # TELoss input with some variables
 ################################################################################
 
-TELOSSLIBS := -lCore -lCint -lMathCore -lMatrix -lHist -lgfortran
+TELOSSLIBS := -lCore -lCling -lMathCore -lMatrix -lHist -lgfortran
 
 # Add inputs and outputs from these tool invocations to the build variables 
 
