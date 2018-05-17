@@ -18,4 +18,4 @@ AnalysisxTree		treename
 0.1	peakPositionTolerance	//in relative units; for check of the peaks positions in channels//
 2	fitFunctionLineWidth	//integer 1 - 10; graphics//
 6	minFitSigma				//minimal sigma of the peaks to be fitted//
-0.6	fitHightThreshold		//in relative units; the minimal height of the treated peak//
+0.5	fitHightThreshold		//in relative units; the minimal height of the treated peak//

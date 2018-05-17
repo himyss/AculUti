@@ -1184,7 +1184,7 @@ Bool_t AculCalibration::ShowFullCalibratedSpectra(//const char* inputfile,
 		sscanf(line.Data(), "%s %s", cA, cB);
 		fA[i] = atof(cA);
 		fB[i] = atof(cB);
-		cout<<fA[i]<<" "<<fB[i]<<"!!!!!!!!!!!!!"<<endl;
+		//cout<<fA[i]<<" "<<fB[i]<<"!!!!!!!!!!!!!"<<endl;
 		hRaw2 = new TH1I("name", "title", 4096, 0, 4095);
 		detectorChannel.Form("%s[%d]", block, i);
 		histName.Form("Hist%s[%d]", block, i);
