@@ -11,10 +11,10 @@
 31 					uppersubaddress
 SQX_L				block
 AnalysisxTree		treename
-150	lowerChannel			//in channels//каналы,
-500	upperChannel			//in channels//каналы
-0.5	lowerPeakHight			//in relative units; minimal range of the peak//
-0.5	upperPeakHight			//in relative units; minimal range of the peak//
+400	lowerChannel			//in channels//каналы,
+1300	upperChannel			//in channels//каналы
+0.4	lowerPeakHight			//in relative units; minimal range of the peak//
+0.4	upperPeakHight			//in relative units; minimal range of the peak//
 0.1	peakPositionTolerance	//in relative units; for check of the peaks positions in channels//
 2	fitFunctionLineWidth	//integer 1 - 10; graphics//
 6	minFitSigma				//minimal sigma of the peaks to be fitted//

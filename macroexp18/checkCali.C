@@ -1,24 +1,34 @@
 void checkCali() {
-  TFile *f = new TFile("/home/muzalevsky/work/exp1803/data/dataCal/SQX_L_full_calibrated_spectra.root");
-  const Int_t nhists = 32;
-  TH1F *h[nhists];
-
+  TFile *f = new TFile("/home/muzalevsky/work/exp1803/data/siCal/SQY_R_full_calibrated_spectra.root");
+  const Int_t nhists = 16;
+  TH1F *h[nhists],*hsumm;
+  hsumm = new TH1F("hsumm","summ cal spec",4095,0,10);
   TString hname,cName;
-  TTree *t = (TTree*)f->Get("AnalysisxTree");
+  //TTree *t = (TTree*)f->Get("AnalysisxTree");
   for(Int_t i=0;i<nhists;i++) {
-    hname.Form("HistSQX_L[%d]Efull",i);
+    hname.Form("HistSQY_R[%d]Efull",i);
     h[i] = (TH1F*)f->Get(hname.Data());
-    //cout  << h[i]->GetNbinsX()<< " " << i<< endl;
+    //cout  << h[i]->GetXaxis()->GetXmax()<< " " << i<< endl;
+  }
+  TCanvas *c1 = new TCanvas("c1"," summ cal spec",1000,1000);
+  Float_t content;
+  for(Int_t i=0;i<4095;i++) {
+    content = 0.;
+    for(Int_t j=0;j<nhists;j++) {
+      if(j==0) continue;
+      content += h[j]->GetBinContent(i);    
+    }
+    hsumm->SetBinContent(i,content);
   }
 
-  TF1* g1 = new TF1("g1", "gaus", 4.4, 4.6);
+  TF1* g1 = new TF1("g1", "gaus", 4.2, 4.8);
   g1->SetParLimits(0,1.,150.);
-  g1->SetParLimits(1,4.,5.);
+  g1->SetParLimits(1,4.,5.11);
   g1->SetParLimits(2,0.1,3.);
 
-  TF1* g2 = new TF1("g2", "gaus", 5.12, 5.35);
+  TF1* g2 = new TF1("g2", "gaus", 5., 5.5);
   g2->SetParLimits(0,1.,150.);
-  g2->SetParLimits(1,5.12,5.35);
+  g2->SetParLimits(1,5.12,5.5);
   g2->SetParLimits(2,0.1,3.);
 
   TF1* g3 = new TF1("g3", "gaus", 5.65, 5.95);
@@ -30,9 +40,16 @@ void checkCali() {
   g4->SetParLimits(0,1.,150.);
   g4->SetParLimits(1,7.25,7.65);
   g4->SetParLimits(2,0.1,3.);
-  
-  TCanvas *c[8];
-  for(Int_t i=0;i<8;i++){
+
+  c1->cd();
+  hsumm->Draw();
+  hsumm->Fit("g1","R+");
+  hsumm->Fit("g2","R+");
+  hsumm->Fit("g3","R+");
+  hsumm->Fit("g4","R+");
+return;
+  TCanvas *c[4];
+  for(Int_t i=0;i<4;i++){
     cName.Form("c%d",i+1);
     c[i] = new TCanvas(cName.Data(),"calibrated spectra",1000,1000);
     c[i]->Divide(2,2);
@@ -56,7 +73,7 @@ void checkCali() {
 
   Int_t count=-1;
   Int_t nPad;
-  for(Int_t i=0;i<32;i++) {
+  for(Int_t i=0;i<nhists;i++) {
     count = i/4;
     nPad = (i%4)+1;
     c[count]->cd(nPad);
